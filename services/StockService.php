@@ -362,7 +362,7 @@ class StockService extends BaseService
 		}
 	}
 
-	public function ConsumeProduct(int $productId, float $amount, bool $spoiled, $transactionType, $specificStockEntryId = 'default', $recipeId = null, $locationId = null, &$transactionId = null, $allowSubproductSubstitution = false, $consumeExactAmount = false)
+	public function ConsumeProduct(int $productId, float $amount, bool $spoiled, $transactionType, $specificStockEntryId = 'default', $recipeId = null, $locationId = null, &$transactionId = null, $allowSubproductSubstitution = false, $consumeExactAmount = false, $consume_all_available = false)
 	{
 		if (!$this->ProductExists($productId))
 		{
@@ -417,7 +417,11 @@ class StockService extends BaseService
 			}
 			if ($amount > $productStockAmountTotal)
 			{
-				throw new \Exception('Amount to be consumed cannot be > current unopened stock amount (if supplied, at the desired location)');
+				if ($consume_all_available) {
+					$amount = $productStockAmount;
+				} else {
+					throw new \Exception('Amount to be consumed cannot be > current stock amount (if supplied, at the desired location)');
+				}
 			}
 
 			if ($transactionId === null)

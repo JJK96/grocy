@@ -100,7 +100,7 @@ class RecipesService extends BaseService
 						$amount = $recipePosition->stock_amount;
 					}
 
-					StockService::GetInstance()->ConsumeProduct($recipePosition->product_id, $amount, false, StockService::TRANSACTION_TYPE_CONSUME, 'default', $recipeId, null, $transactionId, true, true);
+					StockService::GetInstance()->ConsumeProduct($recipePosition->product_id, $amount, false, StockService::TRANSACTION_TYPE_CONSUME, 'default', $recipeId, null, $transactionId, true, true, true);
 				}
 			}
 		}
